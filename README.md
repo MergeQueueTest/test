@@ -29,11 +29,5 @@ The main features that have currently been implemented are:
 * Admin users can create and manage models. The admin has been optimised (the basic registration is present in admin.py, but commented out).
 * Librarians can renew reserved books
 
-![Local Library Model](https://github.com/mdn/django-locallibrary-tutorial/blob/master/catalog/static/images/local_library_model_uml.png)
 
-## License Information
-
-Documentation (guides, references, and associated images) is licensed as Creative Commons Attribution-NonCommercial-ShareAlike CC BY-NC-SA. The full license can be found [here](http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode), and the human-readable summary [here](http://creativecommons.org/licenses/by-nc-sa/4.0/).
-
-Everything in this repository not covered above is licensed under the [included CC0 license](LICENSE).
 
