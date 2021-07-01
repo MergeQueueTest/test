@@ -24,7 +24,7 @@ This web application creates an online catalog for a small local library, where 
 
 The main features that have currently been implemented are:
 
-* There are models for books, book copies, genre, language and authors.
+* There are models for books, book copies, genre, language and authors
 
 
 
