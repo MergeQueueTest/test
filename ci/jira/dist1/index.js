@@ -51296,10 +51296,11 @@
                       issue_id = issue_ids_1[_i];
                       return [4 /*yield*/, jira
                               .findIssue(issue_id)
-                              .then(function () {
+                              .then(function (e) {
                               console.log("Found Valid ID " + issue_id + " in PR Title");
                           })
-                              .catch(function () {
+                              .catch(function (err) {
+                              console.log(err);
                               _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("Found ID " + issue_id + " in PR Title but " + issue_id + " is NOT a Valid ID");
                           })];
                   case 2:

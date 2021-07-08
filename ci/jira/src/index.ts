@@ -19,10 +19,11 @@ async function run() {
     for (var issue_id of issue_ids) {
       await jira
         .findIssue(issue_id)
-        .then(() => {
+        .then((e) => {
           console.log(`Found Valid ID ${issue_id} in PR Title`);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
           core.setFailed(
             `Found ID ${issue_id} in PR Title but ${issue_id} is NOT a Valid ID`
           );
