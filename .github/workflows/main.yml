@@ -6,11 +6,9 @@ on:
     types: [assigned, opened, synchronize, reopened, editied]
 
 jobs:
-  test:
+  jira:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
+    name: Validate Jira ID from PR title
     steps:
       - uses: actions/checkout@v2
       - name: Enforce Jira Issue Key in Pull Request Title
