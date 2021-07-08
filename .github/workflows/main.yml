@@ -13,3 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Enforce Jira Issue Key in Pull Request Title
         uses: ./ci/jira
+        with:
+          jira-host: ${{ secrets.JIRAHOST }}
+          jira-username: ${{ secrets.JIRA_USERNAME }}
+          jira-api-token: ${{ secrets.JIRA_APITOKEN }}

@@ -1,9 +1,15 @@
 name: Enforce Pull Request Title includes Jira Issue Key
-description: Check that a PR title starts with a Jira Issue Key
+description: Check that a PR includes a Jira Issue Key
 inputs:
-  projectKey:
-    description: 'A specific Jira Project Key that must be included.'
-    required: false
+  jira-host:
+    descriptions: "JIRA hostname"
+    required: true
+  jira-username:
+    descriptions: "JIRA username"
+    required: true   
+  jira-api-token:
+    descriptions: "JIRA apitoken"
+    required: true
 runs:
   using: node12
   main: dist1/index.js

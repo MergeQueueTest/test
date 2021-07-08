@@ -1,59 +1,76 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import JiraApi from "jira-client";
 import { EventPayloads } from "@octokit/webhooks";
 
 async function run() {
-    try {
-        core.debug("Starting PR Title check for Jira Issue Key");
-        const title = getPullRequestTitle();
-        const regex = getRegex();
+  try {
+    core.debug("Starting PR Title check for Jira Issue Key");
+    var issue_ids = extractJiraIssueId(getPullRequestTitle());
+    var jira = new JiraApi({
+      protocol: "https",
+      host: core.getInput('jira-host'),
+      username: core.getInput('jira-username'),
+      password: core.getInput('jira-api-token'),
+      apiVersion: "2",
+      strictSSL: true,
+    });
 
-        core.debug(title);
-        core.debug(regex.toString());
-
-        if (!regex.test(title)) {
-            core.debug(`Regex ${regex} failed with title ${title}`);
-            core.info("Title Failed");
-            core.setFailed("PullRequest title does not start with a Jira Issue key.");
-            return;
-        }
-        core.info("Title Passed");
-
-    } catch (error) {
-        core.setFailed(error.message);
+    for (var issue_id of issue_ids) {
+      await jira
+        .findIssue(issue_id)
+        .then(() => {
+          console.log(`Found Valid ID ${issue_id} in PR Title`);
+        })
+        .catch(() => {
+          core.setFailed(
+            `Found ID ${issue_id} in PR Title but ${issue_id} is NOT a Valid ID`
+          );
+        });
     }
-}
-
-export function getRegex() {
-    let regex = /(?<=^|[a-z]\-|[\s\p{Punct}&&[^\-]])([A-Z][A-Z0-9_]*-\d+)(?![^\W_])(\s)+(.)+/;
-    const projectKey = core.getInput("projectKey", { required: false });
-    if (projectKey && projectKey !== "") {
-        core.debug(`Project Key ${projectKey}`);
-        if (!/(?<=^|[a-z]\-|[\s\p{Punct}&&[^\-]])([A-Z][A-Z0-9_]*)/.test(projectKey)) {
-            throw new Error(`Project Key  "${projectKey}" is invalid`)
-        }
-        regex = new RegExp(`(^${projectKey}-){1}(\\d)+(\\s)+(.)+`);
-    }
-    return regex;
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
 
 export function getPullRequestTitle() {
-    let pull_request = github.context.payload.pull_request;
-    core.debug(`Pull Request: ${JSON.stringify(github.context.payload.pull_request)}`);
-    if (pull_request == undefined || pull_request.title == undefined) {
-        throw new Error("This action should only be run with Pull Request Events");
-    }
-    return pull_request.title;
+  let pull_request = github.context.payload.pull_request;
+  core.debug(
+    `Pull Request: ${JSON.stringify(github.context.payload.pull_request)}`
+  );
+  if (pull_request == undefined || pull_request.title == undefined) {
+    throw new Error("This action should only be run with Pull Request Events");
+  }
+  return pull_request.title;
 }
 
-export function extractJiraIssueId(){
-
+function reverse(s: string) {
+  return s.split("").reverse().join("");
 }
 
-export function checkKeyValidity(issue_id, jira_client){
+export function extractJiraIssueId(pr_title: string) {
+  var jira_matcher = /\d+-[A-Z]+(?!-?[a-zA-Z]{1,10})/g;
+  pr_title = reverse(pr_title);
+  var m = pr_title.match(jira_matcher);
 
+  // Also need to reverse all the results!
+  if (m == null) return [];
+
+  for (var i = 0; i < m.length; i++) {
+    m[i] = reverse(m[i]);
+  }
+  return m.reverse();
 }
 
-
+export async function isValidIssue(issue_id: string, jira_client: JiraApi) {
+  jira_client
+    .findIssue(issue_id)
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+}
 
 run()
