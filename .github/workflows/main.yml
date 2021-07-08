@@ -8,11 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
-    
     steps:
       - uses: actions/checkout@v2
       - name: Enforce Jira Issue Key in Pull Request Title
