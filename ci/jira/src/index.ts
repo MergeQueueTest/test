@@ -46,4 +46,14 @@ export function getPullRequestTitle() {
     return pull_request.title;
 }
 
+export function extractJiraIssueId(){
+
+}
+
+export function checkKeyValidity(issue_id, jira_client){
+
+}
+
+
+
 run()
