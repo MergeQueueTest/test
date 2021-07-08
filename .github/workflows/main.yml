@@ -16,4 +16,4 @@ jobs:
         with:
           jira-host: ${{ secrets.JIRAHOST }}
           jira-username: ${{ secrets.JIRA_USERNAME }}
-          jira-api-token: ${{ secrets.JIRA_APITOKEN }}
+          jira-api-token: ${{ secrets.JIRA_PASSWORD }}
