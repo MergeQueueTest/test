@@ -1,22 +1,11 @@
 on: [push]
 
+name: 'HTML Preview Action'
 jobs:
-  hello_world_job:
+  html_preview:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: HTML Preview
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: List
-        run: ls
-      - name: Hello world action step
-        uses: ./ci/actions # Uses an action in the root directory
-        id: hello
-        with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - uses: actions/checkout@v2
+      - name: Get HTML preview link
+        uses: ./ci/test-action
