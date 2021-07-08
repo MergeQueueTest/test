@@ -1,22 +1,13 @@
-name: 'HTML Preview'
-author: 'Pavitra Golchha | @pavi2410'
-description: 'Preview HTML page in PR'
+name: 'Hello World'
+description: 'Greet someone and record the time'
 inputs:
-  msg:
-    description: 'The message to display on PR comment'
+  who-to-greet:  # id of input
+    description: 'Who to greet'
     required: true
-    default: 'Click here to preview HTML page in browser'
-  html_file:
-    description: 'The HTML file you want to preview'
-    required: true
-    default: 'index.html'
-  gh_token:
-    description: 'GitHub Token'
-    required: true
-    default: ${{ github.token }}
+    default: 'World'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
 runs:
   using: 'node12'
-  main: 'dist1/index.js'
-branding:
-  color: 'orange'
-  icon: 'eye'
+  main: 'compiled-action/index.js
