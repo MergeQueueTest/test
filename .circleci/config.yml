@@ -57,7 +57,7 @@ workflows:
   build-main:
     jobs:
        - docker_build_and_push
-       - deploy_to_kubernetes
+       - deploy_to_kubernetes:
           requires:
             - docker_build_and_push
           
