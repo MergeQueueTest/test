@@ -21,6 +21,7 @@ executors:
             username: $DOCKERHUB_USERNAME
             password: $DOCKERHUB_PASSWORD
 
+
 jobs:
     docker_build_and_push: 
       executor: docker-publisher
