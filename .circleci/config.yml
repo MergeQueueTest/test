@@ -56,12 +56,19 @@ workflows:
   version: 2
   build-main:
     jobs:
-       - docker_build_and_push
-       - deploy_to_kubernetes:
+      - docker_build_and_push
+      - deploy_to_kubernetes:
+          name: Staging Deploy
           requires:
             - docker_build_and_push
-          
-                
+      - test_app_prod_hold:
+          type: approval
+          requires:
+            - Staging Deploy
+      - deploy_to_kubernetes:
+          name: Prod Deploy
+          requires:
+            - test_app_prod_hold              
                  
              
     
